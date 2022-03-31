@@ -1,5 +1,6 @@
-import { InternalError } from '@src/util/errors/internal-error';
 import { AxiosStatic } from 'axios';
+import config, { IConfig } from 'config';
+import { InternalError } from '@src/util/errors/internal-error';
 
 export interface StormGlassPointSource {
 	[key: string]: number;
@@ -31,6 +32,10 @@ export interface ForecastPoint {
 	windSpeed: number;
 }
 
+/**
+ * This error type is used when something breaks before the request reaches out to the StormGlass API
+ * eg: Network error, or request validation error
+ */
 export class ClientRequestError extends InternalError {
 	constructor(message: string) {
 		const internalMessage = 'Unexpected error when trying to communicate to StormGlass';
@@ -45,6 +50,11 @@ export class StormGlassResponseError extends InternalError {
 	}
 }
 
+/**
+ * We could have proper type for the configuration
+ */
+const stormglassResourceConfig: IConfig = config.get('App.resources.StormGlass');
+
 export class StormGlass {
 	readonly stormGlassApiParams =
 		'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,windDirection,windSpeed';
@@ -56,10 +66,10 @@ export class StormGlass {
 	public async fetchPoints(lat: number, long: number): Promise<ForecastPoint[]> {
 		try {
 			const response = await this.request.get(
-				`https://api.stormglass.io/v2/weather/point?params=${this.stormGlassApiParams}&source=${this.stormGlassApiSource}&lat=${lat}&lng=${long}`,
+				`${stormglassResourceConfig.get('apiUrl')}/weather/point?params=${this.stormGlassApiParams}&source=${this.stormGlassApiSource}&lat=${lat}&lng=${long}`,
 				{
 					headers: {
-						Authorization: 'fake-token'
+						Authorization: stormglassResourceConfig.get('apiToken')
 					}
 				}
 			);
