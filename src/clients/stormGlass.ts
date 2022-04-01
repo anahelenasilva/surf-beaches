@@ -67,15 +67,12 @@ export class StormGlass {
 
   constructor(protected request = new HTTPUtil.Request()) {}
 
-  public async fetchPoints(
-    lat: number,
-    long: number
-  ): Promise<ForecastPoint[]> {
+  public async fetchPoints(lat: number, lng: number): Promise<ForecastPoint[]> {
     try {
       const response = await this.request.get<StormGlassForecastResponse>(
         `${stormglassResourceConfig.get('apiUrl')}/weather/point?params=${
           this.stormGlassApiParams
-        }&source=${this.stormGlassApiSource}&lat=${lat}&lng=${long}`,
+        }&source=${this.stormGlassApiSource}&lat=${lat}&lng=${lng}`,
         {
           headers: {
             Authorization: stormglassResourceConfig.get('apiToken'),

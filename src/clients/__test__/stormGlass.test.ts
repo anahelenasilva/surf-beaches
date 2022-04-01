@@ -12,14 +12,14 @@ describe('StormGlass client', () => {
   const mockedRequest = new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>;
   it('should return the normalized forecast from the StormGlass service', async () => {
     const lat = -33.792726;
-    const long = 151.289824;
+    const lng = 151.289824;
 
     mockedRequest.get.mockResolvedValue({
       data: stormGlassWeather3HoursFixture,
     } as HTTPUtil.Response);
 
     const stormGlass = new StormGlass(mockedRequest);
-    const response = await stormGlass.fetchPoints(lat, long);
+    const response = await stormGlass.fetchPoints(lat, lng);
     expect(response).toEqual(stormGlassNormalizedWeather3HoursFixture);
   });
 
