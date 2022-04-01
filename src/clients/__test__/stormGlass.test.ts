@@ -57,12 +57,6 @@ describe('StormGlass client', () => {
 		const lat = -33.792726;
 		const lng = 151.289824;
 
-		class FakeAxiosError extends Error {
-			constructor(public response: object) {
-				super();
-			}
-		}
-
 		MockedRequestClass.isRequestError.mockReturnValue(true);
 		mockedRequest.get.mockRejectedValue({
 			response: {
