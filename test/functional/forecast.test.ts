@@ -4,7 +4,6 @@ import api_forecast_response_onebeach from '../fixtures/api_forecast_response_on
 import { Beach, BeachPosition } from '@src/models/beach';
 
 describe('Beach forecast function tests', () => {
-
   beforeEach(async () => {
     await Beach.deleteMany({});
     const defaultBeach = {
@@ -12,7 +11,7 @@ describe('Beach forecast function tests', () => {
       lng: 151.289824,
       name: 'Manly',
       position: BeachPosition.E,
-    }
+    };
 
     const beach = new Beach(defaultBeach);
     await beach.save();
