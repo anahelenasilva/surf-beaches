@@ -9,6 +9,7 @@
     "start:dev": "ts-node-dev src/index.ts",
     "lint": "eslint ./src ./test --ext .ts",
     "lint:fix": "eslint ./src ./test --ext .ts --fix",
+    "test": "yarn test:unit && yarn test:functional",
     "test:functional": "jest --projects ./test --runInBand",
     "test:unit": "jest",
     "style:fix": "prettier --write src/**/*.ts test/**/*.ts",
