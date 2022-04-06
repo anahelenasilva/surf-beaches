@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { Beach } from '@src/models/beach';
 import { authMiddleware } from '@src/middlewares/auth';
+import logger from '@src/logger';
 
 @Controller('beaches')
 @ClassMiddleware(authMiddleware)
@@ -13,9 +14,10 @@ export class BeachesController {
       const beach = new Beach({ ...req.body, ...{ user: req.decoded?.id } });
       const result = await beach.save();
       res.status(201).send(result);
-    } catch (err) {
-      if (err instanceof mongoose.Error.ValidationError) {
-        res.status(422).send({ error: err.message });
+    } catch (error) {
+      logger.error(error);
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.status(422).send({ error: error.message });
       } else {
         res.status(500).send({ error: 'Internal Server Error' });
       }
