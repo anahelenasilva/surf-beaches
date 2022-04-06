@@ -16,7 +16,7 @@
     "style:check": "prettier --check src/**/*.ts test/**/*.ts"
   },
   "engines": {
-    "node": "12"
+    "node": "16"
   },
   "repository": {
     "type": "git",
